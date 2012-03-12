@@ -1,0 +1,24 @@
+{
+  "name"            : "authenticator",
+  "description"     : "A library to authenticate and login in nodeJS using Express and Passport",
+  "url"             : "http://minimalgap.com:3000/authenticator",
+  "keywords"        : ["authenticator","authentication","login","passport"],
+  "author"          : "Sergio Matone <sergio@minimalgap.com>",
+  "contributors"    : ["Davide Bertola <davide@minimalgap.com>"],
+  "dependencies": {
+    "express": "2.5.2",
+    "oauth":"0.9.5", 
+    "passport": "0.1.5",
+    "passport-local": "0.1.x"
+    "passport-twitter": "0.1.x"
+    "cradle" : "git@github.com:sw360cab/cradle.git",
+    "redis" : "0.7.x"
+    "hiredis" : "0.1.x"
+  },
+  "version"         : "0.1.0",
+  "directories": {
+    "lib": "./lib/nosqld"
+  },
+  "main"            : "./lib/authenticator",
+  "engines"         : { "node": ">=0.3.6" }
+}

@@ -9,10 +9,10 @@
     "express": "2.5.2",
     "oauth":"0.9.5", 
     "passport": "0.1.5",
-    "passport-local": "0.1.x"
-    "passport-twitter": "0.1.x"
-    "cradle" : "git@github.com:sw360cab/cradle.git",
-    "redis" : "0.7.x"
+    "passport-local": "0.1.x",
+    "passport-twitter": "0.1.x",
+    "cradle" : "git://github.com/sw360cab/cradle.git",
+    "redis" : "0.7.x",
     "hiredis" : "0.1.x"
   },
   "version"         : "0.1.0",

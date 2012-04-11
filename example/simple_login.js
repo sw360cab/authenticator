@@ -19,7 +19,7 @@ passport.use(new LocalStrategy(
     // validate 
     var validationResult = validate(jsonData);  
     if (validationResult.valid)       
-       nosqld.query(jsonData,done);
+       nosqld.verifyCredentials(jsonData,done);
     else 
       return done(null,false);
   }

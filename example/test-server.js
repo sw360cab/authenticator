@@ -20,7 +20,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/index.html', function (req, res) {
-  res.redirect('/')
+  res.redirect('/');
 });
 
 app.post('/register',  function (req, res) {

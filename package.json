@@ -11,11 +11,12 @@
     "passport": "0.1.5",
     "passport-local": "0.1.x",
     "passport-twitter": "0.1.x",
+    "passport-facebook": "0.1.x",
     "cradle" : "git://github.com/sw360cab/cradle.git",
     "redis" : "0.7.x",
     "hiredis" : "0.1.x"
   },
-  "version"         : "0.1.0",
+  "version"         : "0.1.1",
   "directories": {
     "lib": "./lib/nosqld"
   },

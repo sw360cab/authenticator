@@ -4,7 +4,16 @@ var express = require('express')
   , sessionStore = new MemoryStore()
   , authenticator = require('../lib/authenticator');
 
-authenticator.init();
+authenticator.init(
+{
+  "nosqld" : { 
+    dbms : "couchd",
+    dbName : "citybugs00",
+    designDoc : 'view',
+    userView : 'users'
+  }
+}
+);
 
 app.configure(function() {
   app.use(express.cookieParser());

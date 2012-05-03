@@ -6,7 +6,7 @@
   "author"          : "Sergio Matone <sergio@minimalgap.com>",
   "contributors"    : ["Davide Bertola <davide@minimalgap.com>"],
   "dependencies": {
-    "express": "2.5.2",
+    "express": "*",
     "oauth":"0.9.5", 
     "passport": "0.1.5",
     "passport-local": "0.1.x",

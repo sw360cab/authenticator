@@ -52,5 +52,5 @@ app.post('/auth', function (req, res) {
     res.writeHead(200);      
     res.end("Authenticated\n");
   };
-  authenticator.login(req,res,callback);
+  authenticator.login(req,res,"local",callback);
 });

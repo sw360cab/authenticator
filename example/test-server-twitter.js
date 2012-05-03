@@ -7,19 +7,25 @@ var express = require('express')
 
 var TWITTER_CONSUMER_KEY = 'bpezPISte59LrAkmvTcoJQ';
 var TWITTER_CONSUMER_SECRET = 'YZ88fMfswDLbQL0Aotaz5lDUT1wToMEQViJaPBZg5Y';
-var CALLBACK_URI = 'http://twitter.minimalgap.com:3000/auth/twitter/callback';
+var TWITTER_CALLBACK_URI = 'http://twitter.minimalgap.com:3000/auth/twitter/callback';
+
+var FACEBOOK_APP_ID = '242198692542924';
+var FACEBOOK_APP_SECRET = 'f8867e84e3948bde72c8b0265c03a0ff';
+var FACEBOOK_CALLBACK_URI = 'http://facebook.minimalgap.com:3000/auth/facebook/callback';
 
 authenticator.init({ 
+  "nosqld" : {   
+    dbms : "couchd",
+  },
   "twitter" : {
     name : "twitter",
     consumerKey: TWITTER_CONSUMER_KEY,
     secret: TWITTER_CONSUMER_SECRET,
-    callbackURL: CALLBACK_URI,
+    callbackURL: TWITTER_CALLBACK_URI,
     callbackStore: function (token, tokenSecret, profile){
       //JSON with information for storage
       return {
-        username : profile.username+'twitter',
-        email: profile.emails[0].value,
+        username : profile.username+'-twitter',
         displayName : profile.displayName,
         accountType : "social",
         imageUrl : profile._json.profile_image_url,
@@ -29,8 +35,30 @@ authenticator.init({
           tokenSecret : tokenSecret,
           socialId : profile.id,
           displayName : profile.displayName,
-          email: profile.emails[0].value,
-          imageUrl :  profile._json.profile_image_url
+          imageUrl : profile._json.profile_image_url
+        }]
+      }
+    }
+  },
+  "facebook" : {
+    name : "facebook",
+    consumerKey: FACEBOOK_APP_ID,
+    secret: FACEBOOK_APP_SECRET,
+    callbackURL: FACEBOOK_CALLBACK_URI,
+    callbackStore: function (token, tokenSecret, profile){
+      //JSON with information for storage
+      return {
+        username : profile.username+'-facebook',
+        displayName : profile.displayName,
+        accountType : "social",
+        imageUrl : profile._json.profile_image_url,
+        profiles : [{ 
+          provider : "facebook",
+          token : token,
+          tokenSecret : tokenSecret,
+          socialId : profile.id,
+          displayName : profile.displayName,
+          imageUrl : profile._json.profile_image_url
         }]
       }
     }
@@ -72,13 +100,67 @@ app.get('/auth/twitter',function(req, res) {
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
 app.get('/auth/twitter/callback', function(req, res) {
-    authenticator.login( req,res,"twitter", function(err, done) {
-      if (err){
-        res.writeHead(401,'text/plain');
-        res.end("Unauthorized by twitter");
-        return;
-      }        
+  authenticator.login( req,res,"twitter", function(err, done) {
+    var failure = function () {
+      res.writeHead(401,'text/plain');
+      res.end("Unauthorized by twitter");
+    };
+
+    var success = function () {
+          if (!req.session.username)
+      req.session.username = done.username;
       res.writeHead(200,'text/plain');
       res.end("Finished authenticating twitter");
-    });
+    };
+    if (err){
+      failure();
+      return;
+    }
+
+    if (req.session.username)
+      authenticator.updateProfile (req.session.username,done,false, function (err,done) {
+        err ? success () : failure();
+      });
+    success();
+  });
+});
+
+// GET /auth/facebook
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  The first step in Twitter authentication will involve redirecting
+//   the user to facebook.com.  After authorization, the Twitter will redirect
+//   the user back to this application at /auth/facebook/callback
+app.get('/auth/facebook',function(req, res) {
+  authenticator.login( req,res,"facebook")
+});
+// GET /auth/facebook/callback
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  If authentication fails, the user will be redirected back to the
+//   login page.  Otherwise, the primary route function function will be called,
+//   which, in this example, will redirect the user to the home page.
+app.get('/auth/facebook/callback', function(req, res) {
+ authenticator.login( req,res,"facebook", function(err, done) {
+    var failure = function () {
+      res.writeHead(401,'text/plain');
+      res.end("Unauthorized by facebook");
+    };
+
+    var success = function () {
+          if (!req.session.username)
+      req.session.username = done.username;
+      res.writeHead(200,'text/plain');
+      res.end("Finished authenticating facebook");
+    };
+    if (err){
+      failure();
+      return;
+    }
+
+    if (req.session.username)
+      authenticator.updateProfile (req.session.username,done,false, function (err,done) {
+        err ? success () : failure();
+      });
+
+     success();
+  });
 });

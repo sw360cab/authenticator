@@ -1,4 +1,4 @@
-<form action="/auth" method="post">
+<form id="login" name="login" action="" method="post">
     <div>
       <label>Username:</label>
       <input type="text" name="username"/><br/>
@@ -12,3 +12,9 @@
     </div>
     <p>or <a href="register.html">Register</a></p>
 </form>
+<script type="text/javascript">
+(function submit() {
+  document.getElementById("login").setAttribute('action','/auth'+document.location.search);
+  return false;
+})();
+</script>

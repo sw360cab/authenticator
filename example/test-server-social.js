@@ -86,39 +86,39 @@ app.get('/', function(req, res){
 
 
 app._handleSocial = function(req,res,err,done,strategy) {
-    console.log("social is " + strategy);
-    var failure = function () {      
-      res.statusCode = 401;
-      res.setHeader( 'Content-Type', 'text/plain' );
-      return;
-    };
+  console.log("social is " + strategy);
+  var failure = function () {      
+    res.statusCode = 401;
+    res.setHeader( 'Content-Type', 'text/plain' );
+    return;
+  };
 
-    var success = function () {
-      if (!req.session.username)
-        req.session.username = done.username;
-      console.log("the session username",req.session.username)
+  var success = function () {
+    if (!req.session.username)
+      req.session.username = done.username;
+    console.log("the session username",req.session.username)
 
-      res.statusCode = 200;
-      res.setHeader( 'Content-Type', 'text/plain' );
-      res.end("Finished authenticating " + strategy);
-      return;
-    };
+    res.statusCode = 200;
+    res.setHeader( 'Content-Type', 'text/plain' );
+    res.end("Finished authenticating " + strategy);
+    return;
+  };
 
-    if (err){
-      failure();
-      return;
-    }
+  if (err){
+    failure();
+    return;
+  }
 
-    if (req.session.username){
-      console.log('time for update',req.session.username)
+  if (req.session.username){
+    console.log('time for update',req.session.username)
 
-      authenticator.updateProfile (req.session.username,done,false, function (err,done) {
-        console.log('time for update')
-        done ? success () : failure();
-      });
-    }
-    else
-      success();
+    authenticator.updateProfile (req.session.username,done,false, function (err,done) {
+      console.log('time for update')
+      done ? success () : failure();
+    });
+  }
+  else
+    success();
 }
 
 

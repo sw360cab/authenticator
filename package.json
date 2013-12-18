@@ -15,7 +15,6 @@
     "passport-facebook": "0.1.x",
     "cradle" : "git://github.com/sw360cab/cradle.git",
     "redis" : "0.7.x",
-    //"hiredis" : "0.1.x"
   },
   "version"         : "0.1.1",
   "directories": {

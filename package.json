@@ -13,7 +13,7 @@
     "passport-local": "0.1.x",
     "passport-twitter": "0.1.x",
     "passport-facebook": "0.1.x",
-    "cradle" : "git://github.com/sw360cab/cradle.git",
+    "cradle" : "git+https://github.com/sw360cab/cradle.git",
     "redis" : "0.7.x"
   },
   "version"         : "0.1.1",
